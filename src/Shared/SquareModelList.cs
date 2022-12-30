@@ -32,11 +32,6 @@ public sealed class SquareModelList
         }
     }
 
-    public void Clear()
-    {
-        _list.Clear();
-    }
-
     public PlayerSign? CheckWinner()
     {
         foreach (var winner in _winners)
