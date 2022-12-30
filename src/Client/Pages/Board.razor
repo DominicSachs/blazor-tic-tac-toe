@@ -1,0 +1,13 @@
+﻿<div class="board-container">
+  <div class="board">
+    @foreach (var item in _squares)
+    {
+      <Square Model="item" ClickAction="SquareClicked" />
+    }
+  </div>
+  <button @onclick="StartNew">Neues Spiel starten</button>
+</div>
+
+@if (_game.Winner != null) {
+  <div>Player @_game.Winner.Value has won</div>
+}
