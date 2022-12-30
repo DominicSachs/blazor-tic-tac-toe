@@ -2,9 +2,11 @@
 
 public sealed class Game
 {
-    public Game()
+    private bool _isComputerGame = false;
+
+    public Game(bool isComputerGame)
     {
-        Reset();
+        Reset(isComputerGame);
     }
 
     public SquareModelList Squares { get; private set; } = new();
@@ -15,12 +17,26 @@ public sealed class Game
     {
         Winner = Squares.CheckWinner();
         NextSign = Winner ?? (NextSign == PlayerSign.O ? PlayerSign.X : PlayerSign.O);
+
+        if (_isComputerGame && !Winner.HasValue)
+        {
+            AutoMove();
+            Winner = Squares.CheckWinner();
+            NextSign = Winner ?? (NextSign == PlayerSign.O ? PlayerSign.X : PlayerSign.O);
+        }
     }
 
-    public void Reset()
+    public void Reset(bool isComputerGame)
     {
+        _isComputerGame = isComputerGame;
         Squares.ReInitialize();
         NextSign = PlayerSign.X;
         Winner = null;
+    }
+
+    public void AutoMove()
+    {
+        var model = Squares.GetNextMove(NextSign);
+        model.PlayerSign = NextSign;
     }
 }

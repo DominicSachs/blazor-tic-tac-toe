@@ -62,4 +62,66 @@ public sealed class SquareModelList
 
         return hasWinner;
     }
+
+    public SquareModel GetNextMove(PlayerSign playerSign)
+    {
+        foreach (var winner in _winners)
+        {
+            var model = NextWinnerForMe(playerSign, _list[winner.Square1 - 1], _list[winner.Square2 - 1], _list[winner.Square3 - 1]);
+
+            if (model != null)
+            {
+                return model;
+            }
+
+            model = NextWinnerForTheOpponent(playerSign, _list[winner.Square1 - 1], _list[winner.Square2 - 1], _list[winner.Square3 - 1]);
+
+
+            if (model != null)
+            {
+                return model;
+            }
+        }
+
+        return _list.First(m => m.PlayerSign == null);
+    }
+    private SquareModel? NextWinnerForMe(PlayerSign sign, SquareModel model1, SquareModel model2, SquareModel model3)
+    {
+        return NextWinner(sign, model1, model2, model3);
+    }
+    private SquareModel? NextWinnerForTheOpponent(PlayerSign sign, SquareModel model1, SquareModel model2, SquareModel model3)
+    {
+        return NextWinner(sign == PlayerSign.O ? PlayerSign.X : PlayerSign.O, model1, model2, model3);
+    }
+
+    private SquareModel? NextWinner(PlayerSign sign, SquareModel model1, SquareModel model2, SquareModel model3)
+    {
+        int setCount = 0;
+        int nullCount = 0;
+        SquareModel? modelToSet = null;
+
+        setCount += model1.PlayerSign == sign ? 1 : 0;
+        setCount += model2.PlayerSign == sign ? 1 : 0;
+        setCount += model3.PlayerSign == sign ? 1 : 0;
+
+        if (model1.PlayerSign == null)
+        {
+            nullCount++;
+            modelToSet = model1;
+        }
+
+        if (model2.PlayerSign == null)
+        {
+            nullCount++;
+            modelToSet = model2;
+        }
+
+        if (model3.PlayerSign == null)
+        {
+            nullCount++;
+            modelToSet = model3;
+        }
+
+        return setCount == 2 && nullCount == 1 ? modelToSet : null;
+    }
 }

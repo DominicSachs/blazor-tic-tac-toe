@@ -10,3 +10,9 @@
   gap: 2px;
   grid-template-columns: repeat(3, 60px);
 }
+
+.cta-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}

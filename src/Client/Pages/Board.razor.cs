@@ -9,7 +9,7 @@ public partial class Board
 
     protected override Task OnInitializedAsync()
     {
-        _game = new();
+        _game = new(false);
         _squares = _game.Squares.Squares;
 
         return base.OnInitializedAsync();
@@ -24,9 +24,9 @@ public partial class Board
         }
     }
 
-    public void StartNew()
+    public void StartNew(bool isComputerGame)
     {
-        _game.Reset();
+        _game.Reset(isComputerGame);
         StateHasChanged();
     }
 }

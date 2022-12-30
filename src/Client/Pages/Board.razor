@@ -5,7 +5,10 @@
       <Square Model="item" ClickAction="SquareClicked" />
     }
   </div>
-  <button @onclick="StartNew">Neues Spiel starten</button>
+  <div class="cta-bar">
+    <button @onclick="(e => StartNew(false))">Neues Einzelspiel</button>
+    <button @onclick="@(e => StartNew(true))">Neues Spiel gegen den Computer</button>
+  </div>
 </div>
 
 @if (_game.Winner != null) {
